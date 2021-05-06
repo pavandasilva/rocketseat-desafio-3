@@ -14,17 +14,23 @@ export class UsersRepository implements IUsersRepository {
   async findUserWithGamesById({
     user_id,
   }: IFindUserWithGamesDTO): Promise<User> {
-    // Complete usando ORM
+    const user = await  this.repository.findOneOrFail({
+      where: { id: user_id  },
+    });
+
+    return user
   }
 
   async findAllUsersOrderedByFirstName(): Promise<User[]> {
-    return this.repository.query(); // Complete usando raw query
+   /*  return this.repository.query(); // Complete usando raw query */
+
+   return [] as User[]
   }
 
   async findUserByFullName({
     first_name,
     last_name,
   }: IFindUserByFullNameDTO): Promise<User[] | undefined> {
-    return this.repository.query(); // Complete usando raw query
+    return await this.repository.query("SELECT email, first_name, last_name FROM users where LOWER(first_name)=LOWER($1) and LOWER(last_name)=LOWER($2)", [first_name, last_name]);
   }
 }
