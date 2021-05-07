@@ -1,4 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
+import { GamesRepository } from '../../../games/repositories/implementations/GamesRepository';
 
 import { IFindUserWithGamesDTO, IFindUserByFullNameDTO } from '../../dtos';
 import { User } from '../../entities/User';
@@ -16,6 +17,7 @@ export class UsersRepository implements IUsersRepository {
   }: IFindUserWithGamesDTO): Promise<User> {
     const user = await  this.repository.findOneOrFail({
       where: { id: user_id  },
+      relations: ['games']
     });
 
     return user

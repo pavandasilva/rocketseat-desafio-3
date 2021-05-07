@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto';
 import { getRepository, Repository } from 'typeorm';
 
 import { User } from '../../../users/entities/User';
@@ -13,20 +14,12 @@ export class GamesRepository implements IGamesRepository {
   }
 
   async findByTitleContaining(param: string): Promise<Game[]> {
- /*    return this.repository
-      .createQueryBuilder() */
-      // Complete usando query builder
-
-
-      return [] as Game[]
-
+    const response = await this.repository.createQueryBuilder().where(`title ILIKE '%${param}%'`).getMany()
+    return response
   }
 
   async countAllGames(): Promise<[{ count: string }]> {
-  /*   return this.repository.query() */ // Complete usando raw query
-    return [{
-        count: '10'
-    }]
+   return this.repository.query("SELECT id.count FROM games ")
   }
 
   async findUsersByGameId(id: string): Promise<User[]> {

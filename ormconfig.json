@@ -1,7 +1,7 @@
 {
   "username": "postgres",
-  "password": "root",
-
+  "password": "root", 
+  
   "type": "postgres",
   "name": "default",
   "host": "localhost",
@@ -11,5 +11,7 @@
   "migrations": ["./src/database/migrations/*.ts"],
   "cli": {
     "migrationsDir": "./src/database/migrations"
-  }
+  },
+
+  "logging": true
 }
