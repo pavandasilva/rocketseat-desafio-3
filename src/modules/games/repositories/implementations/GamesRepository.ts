@@ -1,5 +1,5 @@
 import { timingSafeEqual } from 'node:crypto';
-import { getRepository, Repository } from 'typeorm';
+import { createQueryBuilder, getRepository, Repository } from 'typeorm';
 
 import { User } from '../../../users/entities/User';
 import { Game } from '../../entities/Game';
@@ -19,14 +19,11 @@ export class GamesRepository implements IGamesRepository {
   }
 
   async countAllGames(): Promise<[{ count: string }]> {
-   return this.repository.query("SELECT id.count FROM games ")
+    return await this.repository.query("select count(id) from games")
   }
 
   async findUsersByGameId(id: string): Promise<User[]> {
- /*    return this.repository
-      .createQueryBuilder() */
-      // Complete usando query builder
-
-      return [] as User[]
+    const result = await this.repository.createQueryBuilder().relation(Game, 'users').of(id).loadMany();
+    return result
   }
 }
